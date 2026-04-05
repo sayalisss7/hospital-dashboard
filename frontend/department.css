@@ -1,0 +1,464 @@
+/* =============================================
+   department.css — Department Page Styles
+   Pair 1, Member 2 owns this file
+   ============================================= */
+
+/* =============================================
+   FILTER SECTION
+   ============================================= */
+.filter-section {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.filter-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-mid);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.filter-select {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 9px 14px;
+  font-size: 0.85rem;
+  color: var(--text-dark);
+  cursor: pointer;
+  font-weight: 500;
+  min-width: 180px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.filter-select:hover {
+  border-color: var(--primary);
+}
+
+.filter-select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(15, 52, 96, 0.1);
+}
+
+/* =============================================
+   DEPARTMENTS GRID
+   ============================================= */
+.departments-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 20px;
+  margin-bottom: 32px;
+}
+
+@media (max-width: 1200px) {
+  .departments-grid {
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .departments-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =============================================
+   DEPARTMENT CARD
+   ============================================= */
+.dept-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow);
+}
+
+.dept-card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+  border-color: var(--primary);
+}
+
+/* Department Card Status Colors */
+.dept-card.critical {
+  border-left: 5px solid var(--red);
+}
+
+.dept-card.warning {
+  border-left: 5px solid var(--orange);
+}
+
+.dept-card.good {
+  border-left: 5px solid var(--green);
+}
+
+.dept-card.low {
+  border-left: 5px solid var(--blue);
+}
+
+/* =============================================
+   DEPARTMENT HEADER
+   ============================================= */
+.dept-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.dept-title-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dept-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin: 0;
+}
+
+.dept-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 12px;
+  background: var(--accent-light);
+  color: var(--accent);
+  letter-spacing: 0.02em;
+}
+
+.dept-badge.critical-badge {
+  background: #fee2e2;
+  color: var(--red);
+}
+
+.dept-badge.warning-badge {
+  background: #fef3c7;
+  color: var(--orange);
+}
+
+.dept-badge.good-badge {
+  background: var(--accent-light);
+  color: var(--accent);
+}
+
+.dept-badge.low-badge {
+  background: #e0f2fe;
+  color: var(--blue);
+}
+
+.dept-menu-btn {
+  background: none;
+  border: none;
+  color: var(--text-light);
+  font-size: 1.4rem;
+  cursor: pointer;
+  padding: 0;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  transition: background 0.2s, color 0.2s;
+}
+
+.dept-menu-btn:hover {
+  background: var(--neutral-bg);
+  color: var(--text-dark);
+}
+
+/* =============================================
+   DEPARTMENT STATS (4-column grid)
+   ============================================= */
+.dept-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.stat-value {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+/* =============================================
+   DEPARTMENT BAR SECTION
+   ============================================= */
+.dept-bar-section {
+  margin-bottom: 16px;
+}
+
+.dept-bar-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-light);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  display: block;
+  letter-spacing: 0.02em;
+}
+
+.dept-bar {
+  width: 100%;
+  height: 8px;
+  background: var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.dept-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.critical-fill {
+  background: var(--red);
+}
+
+.warning-fill {
+  background: var(--orange);
+}
+
+.good-fill {
+  background: var(--green);
+}
+
+.low-fill {
+  background: var(--blue);
+}
+
+/* =============================================
+   DEPARTMENT DETAILS (small info rows)
+   ============================================= */
+.dept-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+}
+
+.detail-label {
+  color: var(--text-light);
+  font-weight: 500;
+}
+
+.detail-value {
+  color: var(--text-dark);
+  font-weight: 600;
+}
+
+.detail-value.good {
+  color: var(--green);
+}
+
+.detail-value.warning {
+  color: var(--orange);
+}
+
+.detail-value.critical {
+  color: var(--red);
+}
+
+/* =============================================
+   DEPARTMENT ACTION BUTTON
+   ============================================= */
+.dept-action-btn {
+  width: 100%;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 10px 16px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s ease;
+}
+
+.dept-action-btn:hover {
+  background: var(--primary-mid);
+}
+
+.dept-action-btn:active {
+  transform: scale(0.98);
+}
+
+/* =============================================
+   CHARTS GRID (same as dashboard)
+   ============================================= */
+.charts-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+  margin-top: 32px;
+}
+
+@media (max-width: 1024px) {
+  .charts-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.chart-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow);
+  transition: all 0.3s ease;
+}
+
+.chart-card:hover {
+  box-shadow: var(--shadow-lg);
+}
+
+.chart-card.wide {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 1024px) {
+  .chart-card.wide {
+    grid-column: auto;
+  }
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.chart-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin: 0 0 4px 0;
+}
+
+.chart-subtitle {
+  font-size: 0.8rem;
+  color: var(--text-light);
+  margin: 0;
+}
+
+.chart-filter {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 7px 12px;
+  font-size: 0.8rem;
+  color: var(--text-mid);
+  cursor: pointer;
+  outline: none;
+}
+
+.chart-filter:hover {
+  border-color: var(--primary);
+}
+
+/* =============================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================= */
+@media (max-width: 768px) {
+  .filter-section {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .filter-select {
+    width: 100%;
+  }
+
+  .dept-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .topbar {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .topbar-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .page-title {
+    font-size: 1.3rem;
+  }
+
+  .page-subtitle {
+    font-size: 0.75rem;
+  }
+}
+
+/* =============================================
+   ANIMATION: Department Card Load
+   ============================================= */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dept-card {
+  animation: slideIn 0.3s ease;
+}
+
+.dept-card:nth-child(1) { animation-delay: 0s; }
+.dept-card:nth-child(2) { animation-delay: 0.05s; }
+.dept-card:nth-child(3) { animation-delay: 0.1s; }
+.dept-card:nth-child(4) { animation-delay: 0.15s; }
+.dept-card:nth-child(5) { animation-delay: 0.2s; }
+.dept-card:nth-child(6) { animation-delay: 0.25s; }

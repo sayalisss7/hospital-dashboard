@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MediTrack | Departments</title>
+  <link rel="icon" type="image/x-icon" href="./veterinary.png">
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="department.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Fraunces:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+        </svg>
+      </div>
+      <span class="logo-text">MediTrack</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a href="index.html" class="nav-item">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+          <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
+        </svg>
+        Dashboard
+      </a>
+      <a href="department.html" class="nav-item active">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+        Departments
+      </a>
+      <a href="staff.html" class="nav-item">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>
+        </svg>
+        Staff & Alerts
+      </a>
+      <a href="upload.html" class="nav-item">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="16 16 12 12 8 16"/>
+          <line x1="12" y1="12" x2="12" y2="21"/>
+          <path d="M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3"/>
+        </svg>
+        Upload Data
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-info">
+        <div class="user-avatar">A</div>
+        <div>
+          <div class="user-name">Admin</div>
+          <div class="user-role">Hospital Manager</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+
+    <!-- TOP BAR -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <h1 class="page-title">Departments</h1>
+        <p class="page-subtitle">Performance metrics and resource allocation by department</p>
+      </div>
+      <div class="topbar-right">
+        <div class="date-badge" id="currentDate"></div>
+        <button class="refresh-btn" onclick="refreshData()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="23 4 23 10 17 10"/>
+            <path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/>
+          </svg>
+          Refresh
+        </button>
+      </div>
+    </header>
+
+    <!-- DEPARTMENT FILTER -->
+    <section class="filter-section">
+      <div class="filter-group">
+        <label for="deptFilter" class="filter-label">Filter by Department:</label>
+        <select id="deptFilter" class="filter-select" onchange="filterDepartments()">
+          <option value="all">All Departments</option>
+          <option value="icu">ICU</option>
+          <option value="emergency">Emergency</option>
+          <option value="general">General Ward</option>
+          <option value="wardB">Ward B</option>
+          <option value="surgery">Surgery</option>
+          <option value="pediatrics">Pediatrics</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="sortBy" class="filter-label">Sort by:</label>
+        <select id="sortBy" class="filter-select" onchange="sortDepartments()">
+          <option value="occupancy">Occupancy (High to Low)</option>
+          <option value="name">Name (A-Z)</option>
+          <option value="staff">Staff Efficiency</option>
+        </select>
+      </div>
+    </section>
+
+    <!-- DEPARTMENTS GRID -->
+    <section class="departments-grid" id="departmentsGrid">
+      <!-- Dynamic department cards will be inserted here -->
+
+      <!-- SAMPLE Department Cards (will be replaced by API data) -->
+      <div class="dept-card critical">
+        <div class="dept-header">
+          <div class="dept-title-section">
+            <h3 class="dept-name">ICU</h3>
+            <span class="dept-badge critical-badge">Critical</span>
+          </div>
+          <button class="dept-menu-btn" onclick="toggleMenu(this)">⋮</button>
+        </div>
+
+        <div class="dept-stats">
+          <div class="stat-item">
+            <span class="stat-label">Occupancy</span>
+            <span class="stat-value">94%</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Beds</span>
+            <span class="stat-value">47/50</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Staff</span>
+            <span class="stat-value">32</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Patients/Staff</span>
+            <span class="stat-value">1.47</span>
+          </div>
+        </div>
+
+        <div class="dept-bar-section">
+          <p class="dept-bar-label">Bed Capacity</p>
+          <div class="dept-bar"><div class="dept-bar-fill critical-fill" style="width:94%"></div></div>
+        </div>
+
+        <div class="dept-details">
+          <div class="detail-row">
+            <span class="detail-label">Available Beds:</span>
+            <span class="detail-value">3</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Equipment Status:</span>
+            <span class="detail-value good">95% Operational</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Avg. Stay:</span>
+            <span class="detail-value">8.2 days</span>
+          </div>
+        </div>
+
+        <button class="dept-action-btn">View Details</button>
+      </div>
+
+      <div class="dept-card warning">
+        <div class="dept-header">
+          <div class="dept-title-section">
+            <h3 class="dept-name">General Ward</h3>
+            <span class="dept-badge warning-badge">High</span>
+          </div>
+          <button class="dept-menu-btn" onclick="toggleMenu(this)">⋮</button>
+        </div>
+
+        <div class="dept-stats">
+          <div class="stat-item">
+            <span class="stat-label">Occupancy</span>
+            <span class="stat-value">78%</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Beds</span>
+            <span class="stat-value">156/200</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Staff</span>
+            <span class="stat-value">48</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Patients/Staff</span>
+            <span class="stat-value">3.25</span>
+          </div>
+        </div>
+
+        <div class="dept-bar-section">
+          <p class="dept-bar-label">Bed Capacity</p>
+          <div class="dept-bar"><div class="dept-bar-fill warning-fill" style="width:78%"></div></div>
+        </div>
+
+        <div class="dept-details">
+          <div class="detail-row">
+            <span class="detail-label">Available Beds:</span>
+            <span class="detail-value">44</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Equipment Status:</span>
+            <span class="detail-value good">92% Operational</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Avg. Stay:</span>
+            <span class="detail-value">5.8 days</span>
+          </div>
+        </div>
+
+        <button class="dept-action-btn">View Details</button>
+      </div>
+
+      <div class="dept-card good">
+        <div class="dept-header">
+          <div class="dept-title-section">
+            <h3 class="dept-name">Emergency</h3>
+            <span class="dept-badge good-badge">Normal</span>
+          </div>
+          <button class="dept-menu-btn" onclick="toggleMenu(this)">⋮</button>
+        </div>
+
+        <div class="dept-stats">
+          <div class="stat-item">
+            <span class="stat-label">Occupancy</span>
+            <span class="stat-value">61%</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Beds</span>
+            <span class="stat-value">30/49</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Staff</span>
+            <span class="stat-value">24</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Patients/Staff</span>
+            <span class="stat-value">1.25</span>
+          </div>
+        </div>
+
+        <div class="dept-bar-section">
+          <p class="dept-bar-label">Bed Capacity</p>
+          <div class="dept-bar"><div class="dept-bar-fill good-fill" style="width:61%"></div></div>
+        </div>
+
+        <div class="dept-details">
+          <div class="detail-row">
+            <span class="detail-label">Available Beds:</span>
+            <span class="detail-value">19</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Equipment Status:</span>
+            <span class="detail-value good">98% Operational</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Avg. Stay:</span>
+            <span class="detail-value">3.5 days</span>
+          </div>
+        </div>
+
+        <button class="dept-action-btn">View Details</button>
+      </div>
+
+      <div class="dept-card low">
+        <div class="dept-header">
+          <div class="dept-title-section">
+            <h3 class="dept-name">Ward B</h3>
+            <span class="dept-badge low-badge">Low</span>
+          </div>
+          <button class="dept-menu-btn" onclick="toggleMenu(this)">⋮</button>
+        </div>
+
+        <div class="dept-stats">
+          <div class="stat-item">
+            <span class="stat-label">Occupancy</span>
+            <span class="stat-value">40%</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Beds</span>
+            <span class="stat-value">60/150</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Staff</span>
+            <span class="stat-value">32</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Patients/Staff</span>
+            <span class="stat-value">1.88</span>
+          </div>
+        </div>
+
+        <div class="dept-bar-section">
+          <p class="dept-bar-label">Bed Capacity</p>
+          <div class="dept-bar"><div class="dept-bar-fill low-fill" style="width:40%"></div></div>
+        </div>
+
+        <div class="dept-details">
+          <div class="detail-row">
+            <span class="detail-label">Available Beds:</span>
+            <span class="detail-value">90</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Equipment Status:</span>
+            <span class="detail-value good">91% Operational</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Avg. Stay:</span>
+            <span class="detail-value">6.4 days</span>
+          </div>
+        </div>
+
+        <button class="dept-action-btn">View Details</button>
+      </div>
+
+      <div class="dept-card">
+        <div class="dept-header">
+          <div class="dept-title-section">
+            <h3 class="dept-name">Surgery</h3>
+            <span class="dept-badge">Optimal</span>
+          </div>
+          <button class="dept-menu-btn" onclick="toggleMenu(this)">⋮</button>
+        </div>
+
+        <div class="dept-stats">
+          <div class="stat-item">
+            <span class="stat-label">Occupancy</span>
+            <span class="stat-value">55%</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Beds</span>
+            <span class="stat-value">22/40</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Staff</span>
+            <span class="stat-value">28</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Patients/Staff</span>
+            <span class="stat-value">0.79</span>
+          </div>
+        </div>
+
+        <div class="dept-bar-section">
+          <p class="dept-bar-label">Bed Capacity</p>
+          <div class="dept-bar"><div class="dept-bar-fill" style="width:55%; background:var(--accent)"></div></div>
+        </div>
+
+        <div class="dept-details">
+          <div class="detail-row">
+            <span class="detail-label">Available Beds:</span>
+            <span class="detail-value">18</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Equipment Status:</span>
+            <span class="detail-value good">99% Operational</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Avg. Stay:</span>
+            <span class="detail-value">4.1 days</span>
+          </div>
+        </div>
+
+        <button class="dept-action-btn">View Details</button>
+      </div>
+
+      <div class="dept-card">
+        <div class="dept-header">
+          <div class="dept-title-section">
+            <h3 class="dept-name">Pediatrics</h3>
+            <span class="dept-badge">Optimal</span>
+          </div>
+          <button class="dept-menu-btn" onclick="toggleMenu(this)">⋮</button>
+        </div>
+
+        <div class="dept-stats">
+          <div class="stat-item">
+            <span class="stat-label">Occupancy</span>
+            <span class="stat-value">52%</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Beds</span>
+            <span class="stat-value">26/50</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Staff</span>
+            <span class="stat-value">18</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Patients/Staff</span>
+            <span class="stat-value">1.44</span>
+          </div>
+        </div>
+
+        <div class="dept-bar-section">
+          <p class="dept-bar-label">Bed Capacity</p>
+          <div class="dept-bar"><div class="dept-bar-fill" style="width:52%; background:var(--accent)"></div></div>
+        </div>
+
+        <div class="dept-details">
+          <div class="detail-row">
+            <span class="detail-label">Available Beds:</span>
+            <span class="detail-value">24</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Equipment Status:</span>
+            <span class="detail-value good">94% Operational</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Avg. Stay:</span>
+            <span class="detail-value">3.2 days</span>
+          </div>
+        </div>
+
+        <button class="dept-action-btn">View Details</button>
+      </div>
+
+    </section>
+
+    <!-- DEPARTMENT COMPARISON CHART -->
+    <section class="charts-grid">
+      <div class="chart-card wide">
+        <div class="chart-header">
+          <div>
+            <h3 class="chart-title">Department Occupancy Comparison</h3>
+            <p class="chart-subtitle">Current occupancy rates across all departments</p>
+          </div>
+        </div>
+        <canvas id="occupancyChart" height="80"></canvas>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-header">
+          <div>
+            <h3 class="chart-title">Staff Efficiency</h3>
+            <p class="chart-subtitle">Patients per staff member</p>
+          </div>
+        </div>
+        <canvas id="staffChart" height="180"></canvas>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="department.js"></script>
+  <script src="api.js"></script>
+</body>
+</html>
