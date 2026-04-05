@@ -1,0 +1,169 @@
+/* Specific styles for the Upload Data page. 
+   Assumes base styles (colors, fonts, sidebar) are inherited from style.css 
+*/
+
+:root {
+  --bg-color: #f8f9fb;
+  --card-bg: #ffffff;
+  --text-main: #2d3748;
+  --text-muted: #718096;
+  --border-color: #e2e8f0;
+  --primary-blue: #2980b9;
+  --success-bg: #e6f4ea;
+  --success-text: #1a7f5a;
+  --error-bg: #fce8e6;
+  --error-text: #e74c3c;
+}
+
+.upload-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 40px;
+  height: 100%;
+}
+
+.upload-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 40px;
+  max-width: 500px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+}
+
+.upload-icon-wrapper {
+  background: #ebf5fb;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px auto;
+}
+
+.upload-title {
+  font-size: 1.5rem;
+  color: var(--text-main);
+  margin: 0 0 12px 0;
+  font-weight: 700;
+}
+
+.upload-desc {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-bottom: 32px;
+}
+
+.input-group {
+  text-align: left;
+  margin-bottom: 24px;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--text-main);
+}
+
+.s3-input {
+  width: 100%;
+  padding: 14px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 1rem;
+  color: var(--text-main);
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+
+.s3-input:focus {
+  outline: none;
+  border-color: var(--primary-blue);
+  box-shadow: 0 0 0 3px rgba(41, 128, 185, 0.1);
+}
+
+.upload-btn {
+  background: var(--text-main);
+  color: white;
+  border: none;
+  padding: 14px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s;
+}
+
+.upload-btn:hover {
+  background: #1a202c;
+  transform: translateY(-1px);
+}
+
+.upload-btn:disabled {
+  background: var(--text-muted);
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Status & Loading UI */
+.loading-spinner {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 24px;
+  color: var(--text-muted);
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.spinner-circle {
+  width: 20px;
+  height: 20px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid var(--primary-blue);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.status-msg {
+  margin-top: 24px;
+  padding: 16px;
+  border-radius: 8px;
+  display: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-align: left;
+}
+
+.status-success {
+  background: var(--success-bg);
+  color: var(--success-text);
+  border: 1px solid #c6e5d9;
+  display: block;
+}
+
+.status-error {
+  background: var(--error-bg);
+  color: var(--error-text);
+  border: 1px solid #f5c6cb;
+  display: block;
+}

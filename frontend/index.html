@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MediTrack | Hospital Resource Analyzer</title>
+  <link rel="icon" type="image/x-icon" href="/veterinary.png">
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="dashboard.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Fraunces:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+<body>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+        </svg>
+      </div>
+      <span class="logo-text">MediTrack</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a href="index.html" class="nav-item active">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+          <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
+        </svg>
+        Dashboard
+      </a>
+      <a href="departments.html" class="nav-item">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+        Departments
+      </a>
+      <a href="staff.html" class="nav-item">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>
+        </svg>
+        Staff & Alerts
+      </a>
+      <a href="upload.html" class="nav-item">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="16 16 12 12 8 16"/>
+          <line x1="12" y1="12" x2="12" y2="21"/>
+          <path d="M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3"/>
+        </svg>
+        Upload Data
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-info">
+        <div class="user-avatar">A</div>
+        <div>
+          <div class="user-name">Admin</div>
+          <div class="user-role">Hospital Manager</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+
+    <!-- TOP BAR -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <h1 class="page-title">Overview Dashboard</h1>
+        <p class="page-subtitle">Live resource utilization snapshot</p>
+      </div>
+      <div class="topbar-right">
+        <div class="date-badge" id="currentDate"></div>
+        <button class="refresh-btn" onclick="refreshData()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="23 4 23 10 17 10"/>
+            <path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/>
+          </svg>
+          Refresh
+        </button>
+      </div>
+    </header>
+
+    <!-- ALERT BANNER (shows when critical) -->
+    <div class="alert-banner" id="alertBanner">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/>
+        <line x1="12" y1="16" x2="12.01" y2="16"/>
+      </svg>
+      <strong>Critical Alert:</strong> ICU is at 94% capacity. Recommend immediate resource reallocation.
+      <button class="alert-close" onclick="this.parentElement.style.display='none'">×</button>
+    </div>
+
+    <!-- KPI CARDS -->
+    <section class="kpi-grid">
+      <div class="kpi-card critical">
+        <div class="kpi-header">
+          <span class="kpi-label">ICU Occupancy</span>
+          <div class="kpi-badge critical-badge">Critical</div>
+        </div>
+        <div class="kpi-value">94%</div>
+        <div class="kpi-sub">47 of 50 beds occupied</div>
+        <div class="kpi-bar"><div class="kpi-bar-fill" style="width:94%; background:#e74c3c"></div></div>
+      </div>
+
+      <div class="kpi-card warning">
+        <div class="kpi-header">
+          <span class="kpi-label">General Ward</span>
+          <div class="kpi-badge warning-badge">High</div>
+        </div>
+        <div class="kpi-value">78%</div>
+        <div class="kpi-sub">156 of 200 beds occupied</div>
+        <div class="kpi-bar"><div class="kpi-bar-fill" style="width:78%; background:#f39c12"></div></div>
+      </div>
+
+      <div class="kpi-card good">
+        <div class="kpi-header">
+          <span class="kpi-label">Emergency</span>
+          <div class="kpi-badge good-badge">Normal</div>
+        </div>
+        <div class="kpi-value">61%</div>
+        <div class="kpi-sub">30 of 49 beds occupied</div>
+        <div class="kpi-bar"><div class="kpi-bar-fill" style="width:61%; background:#1a7f5a"></div></div>
+      </div>
+
+      <div class="kpi-card low">
+        <div class="kpi-header">
+          <span class="kpi-label">Ward B</span>
+          <div class="kpi-badge low-badge">Low</div>
+        </div>
+        <div class="kpi-value">40%</div>
+        <div class="kpi-sub">60 of 150 beds occupied</div>
+        <div class="kpi-bar"><div class="kpi-bar-fill" style="width:40%; background:#2980b9"></div></div>
+      </div>
+    </section>
+
+    <!-- CHARTS ROW -->
+    <section class="charts-grid">
+      <div class="chart-card wide">
+        <div class="chart-header">
+          <div>
+            <h3 class="chart-title">Weekly Patient Load</h3>
+            <p class="chart-subtitle">Patients per department, last 7 days</p>
+          </div>
+          <select class="chart-filter" id="weekFilter">
+            <option>This Week</option>
+            <option>Last Week</option>
+          </select>
+        </div>
+        <canvas id="weeklyChart" height="100"></canvas>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-header">
+          <div>
+            <h3 class="chart-title">Resource Usage</h3>
+            <p class="chart-subtitle">Equipment utilization %</p>
+          </div>
+        </div>
+        <canvas id="resourceChart" height="180"></canvas>
+      </div>
+    </section>
+
+    <!-- STAFF ALERTS + PEAK TIMES -->
+    <section class="bottom-grid">
+
+      <div class="info-card">
+        <h3 class="info-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#e74c3c" stroke-width="2">
+            <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+            <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+          </svg>
+          Staff Shortage Alerts
+        </h3>
+        <div class="alert-list" id="alertList">
+          <div class="alert-item critical-item">
+            <div class="alert-dot red"></div>
+            <div>
+              <div class="alert-dept">ICU</div>
+              <div class="alert-msg">Needs +3 nurses (Mon–Wed peak)</div>
+            </div>
+          </div>
+          <div class="alert-item warning-item">
+            <div class="alert-dot orange"></div>
+            <div>
+              <div class="alert-dept">Emergency</div>
+              <div class="alert-msg">Needs +1 doctor (Fri evening)</div>
+            </div>
+          </div>
+          <div class="alert-item good-item">
+            <div class="alert-dot green"></div>
+            <div>
+              <div class="alert-dept">General Ward</div>
+              <div class="alert-msg">Staffing adequate</div>
+            </div>
+          </div>
+          <div class="alert-item low-item">
+            <div class="alert-dot blue"></div>
+            <div>
+              <div class="alert-dept">Ward B</div>
+              <div class="alert-msg">Overstaffed — consider reassignment</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <h3 class="info-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1a7f5a" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+          Peak Time Detection
+        </h3>
+        <div class="peak-grid">
+          <div class="peak-item" data-level="high">
+            <div class="peak-day">Mon</div>
+            <div class="peak-bar-wrap"><div class="peak-bar-fill" style="height:90%"></div></div>
+            <div class="peak-pct">90%</div>
+          </div>
+          <div class="peak-item" data-level="high">
+            <div class="peak-day">Tue</div>
+            <div class="peak-bar-wrap"><div class="peak-bar-fill" style="height:85%"></div></div>
+            <div class="peak-pct">85%</div>
+          </div>
+          <div class="peak-item" data-level="medium">
+            <div class="peak-day">Wed</div>
+            <div class="peak-bar-wrap"><div class="peak-bar-fill" style="height:70%"></div></div>
+            <div class="peak-pct">70%</div>
+          </div>
+          <div class="peak-item" data-level="medium">
+            <div class="peak-day">Thu</div>
+            <div class="peak-bar-wrap"><div class="peak-bar-fill" style="height:65%"></div></div>
+            <div class="peak-pct">65%</div>
+          </div>
+          <div class="peak-item" data-level="high">
+            <div class="peak-day">Fri</div>
+            <div class="peak-bar-wrap"><div class="peak-bar-fill" style="height:88%"></div></div>
+            <div class="peak-pct">88%</div>
+          </div>
+          <div class="peak-item" data-level="low">
+            <div class="peak-day">Sat</div>
+            <div class="peak-bar-wrap"><div class="peak-bar-fill" style="height:45%"></div></div>
+            <div class="peak-pct">45%</div>
+          </div>
+          <div class="peak-item" data-level="low">
+            <div class="peak-day">Sun</div>
+            <div class="peak-bar-wrap"><div class="peak-bar-fill" style="height:40%"></div></div>
+            <div class="peak-pct">40%</div>
+          </div>
+        </div>
+        <p class="peak-note">⚑ Monday–Friday morning are peak hours</p>
+      </div>
+
+      <div class="info-card">
+        <h3 class="info-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2980b9" stroke-width="2">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+          </svg>
+          Trend Prediction (Next 7 Days)
+        </h3>
+        <div class="trend-list">
+          <div class="trend-item">
+            <span class="trend-label">ICU Load</span>
+            <span class="trend-arrow up">↑ +5%</span>
+            <span class="trend-note">Monitor closely</span>
+          </div>
+          <div class="trend-item">
+            <span class="trend-label">Emergency</span>
+            <span class="trend-arrow stable">→ Stable</span>
+            <span class="trend-note">No change expected</span>
+          </div>
+          <div class="trend-item">
+            <span class="trend-label">Ward B</span>
+            <span class="trend-arrow down">↓ −8%</span>
+            <span class="trend-note">Can reallocate staff</span>
+          </div>
+          <div class="trend-item">
+            <span class="trend-label">General Ward</span>
+            <span class="trend-arrow up">↑ +3%</span>
+            <span class="trend-note">Monitor staffing</span>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <script src="charts.js"></script>
+  <script src="api.js"></script>
+</body>
+</html>
